@@ -40,7 +40,11 @@ dependencyManagement {
     applyMavenExclusions false
 }
 
+//change groovy version to 2.4.6
+ext['postgresql.version'] = '2.4.6'
+
 dependencies {
+    
     compile "org.springframework.boot:spring-boot-starter-logging"
     compile "org.springframework.boot:spring-boot-autoconfigure"
     compile "org.grails:grails-core"
@@ -69,4 +73,14 @@ task wrapper(type: Wrapper) {
 assets {
     minifyJs = true
     minifyCss = true
+}
+
+task dependencyManagementProperties << {
+    description = 'Print all BOM properties to the console'
+ 
+    // Sort properties and print to console.
+    dependencyManagement
+        .importedProperties
+        .toSorted()
+        .each { property -> println property }
 }
